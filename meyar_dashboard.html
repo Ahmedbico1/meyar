@@ -142,13 +142,28 @@ function logout(){document.getElementById("loginWrap").style.display="flex";docu
 
 async function loadData(){
   document.getElementById("loadingMsg").style.display="block";
+  document.getElementById("loadingMsg").textContent="جاري تحميل البيانات";
   document.getElementById("dashContent").style.display="none";
   try{
-    const r=await fetch(APPS_URL+"?pass="+encodeURIComponent(PASS));
-    const j=await r.json();
+    const r=await fetch(APPS_URL+"?pass="+encodeURIComponent(PASS),{
+      method:"GET",
+      redirect:"follow"
+    });
+    const text=await r.text();
+    let j;
+    try{j=JSON.parse(text);}
+    catch(pe){
+      console.error("Parse error:",text.substring(0,200));
+      document.getElementById("loadingMsg").textContent="خطا في قراءة البيانات - تاكد من Apps Script";
+      return;
+    }
     if(j.status==="ok"){allData=j.data||[];renderAll();}
-    else{alert("خطا في جلب البيانات: "+j.status);document.getElementById("loadingMsg").textContent="تعذر تحميل البيانات";}
-  }catch(e){document.getElementById("loadingMsg").textContent="تعذر الاتصال بالسيرفر";}
+    else if(j.status==="unauthorized"){document.getElementById("loadingMsg").textContent="كلمة المرور غير صحيحة";}
+    else{document.getElementById("loadingMsg").textContent="خطا: "+j.status;}
+  }catch(e){
+    console.error("Fetch error:",e);
+    document.getElementById("loadingMsg").textContent="تعذر الاتصال - تاكد من اتصال الانترنت";
+  }
 }
 
 function getPct(d){return d.percentage?parseInt(d.percentage):Math.round(((d.totalScore||0)/(d.totalQuestions||60))*100);}
@@ -214,7 +229,7 @@ function renderSecGrid(){
 function renderTable(){
   const tbody=document.getElementById("empTbody");
   document.getElementById("tblCount").textContent="("+filteredData.length+" موظف)";
-  if(!filteredData.length){tbody.innerHTML='<tr><td colspan="9" class="no-data">لا توجد بيانات بعد</td></tr>';return;}
+  if(!filteredData.length){tbody.innerHTML='<tr><td colspan="9" style="text-align:center;padding:30px;color:var(--ink-muted)">لا توجد بيانات بعد - انتظر حتى يكمل الموظفون الجلسة</td></tr>';return;}
   const sorted=[...filteredData].sort((a,b)=>getPct(b)-getPct(a));
   tbody.innerHTML=sorted.map((d,i)=>{
     const p=getPct(d);const lv=getLevel(p);
