@@ -585,13 +585,16 @@ let aAllData=[],aFiltered=[],aCharts={};
 
 function initAdmin(){
   if(window.location.search.includes('admin')){
-    document.getElementById('sIntro').style.display='none';
-    document.getElementById('sQuiz').style.display='none';
-    document.getElementById('sThanks').style.display='none';
+    // Hide all exam elements
+    ['sIntro','sQuiz','sThanks','timerWrap','progBar','qDotsWrap'].forEach(function(id){
+      var el=document.getElementById(id);
+      if(el)el.style.display='none';
+    });
+    // Hide exam header
+    var hdr=document.querySelector('.hdr');
+    if(hdr)hdr.style.display='none';
+    // Show admin
     document.getElementById('adminWrap').style.display='block';
-    document.getElementById('timerWrap') && (document.getElementById('timerWrap').style.display='none');
-    document.getElementById('progBar') && (document.getElementById('progBar').style.display='none');
-    document.getElementById('qDotsWrap') && (document.getElementById('qDotsWrap').style.display='none');
   }
 }
 
@@ -728,8 +731,8 @@ function adminTable(){
   }).join('');
 }
 
-// Run on page load
-window.addEventListener('load', initAdmin);
+// Run immediately
+initAdmin();
 </script>
 
 </body>
