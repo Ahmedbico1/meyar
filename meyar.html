@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>معيار</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#C9A84C;
+  --gold-d:#9B7D2A;
+  --gold-p:#EDE0C4;
+  --gold-pp:#FDF5E6;
+  --cream:#FDF8EE;
+  --white:#FFFFFF;
+  --ink:#1A0A00;
+  --ink-soft:#4A3728;
+  --ink-muted:#8A7060;
+  --border:#EDE0C4;
+  --red:#C0392B;
+  --green:#1A7F5A;
+  --shadow:0 4px 28px rgba(201,168,76,.13);
+  --shadow-sm:0 2px 12px rgba(201,168,76,.09);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Tajawal',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;direction:rtl;-webkit-text-size-adjust:100%;}
+.opt{-webkit-tap-highlight-color:rgba(201,168,76,.15);}
+.btn-start,.btn-nav{-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
+input,select{font-size:16px !important;}
+
+/* HEADER */
+.hdr{
+  background:var(--white);
+  padding:12px 24px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:2px solid var(--gold-p);
+  position:sticky;top:0;z-index:200;
+  box-shadow:var(--shadow-sm);
+}
+.hdr-brand{display:flex;align-items:center;gap:12px;}
+.hdr-logo{width:44px;height:44px;background:#000;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;}
+.hdr-logo img{width:40px;height:40px;object-fit:contain;border-radius:50%;}
+.hdr-name{font-size:20px;font-weight:900;color:var(--gold-d);letter-spacing:2px;}
+
+/* TIMER RING */
+.timer-wrap{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.timer-lbl{font-size:9px;color:var(--ink-muted);font-weight:700;letter-spacing:.5px;}
+.timer-ring{position:relative;width:52px;height:52px;}
+.timer-ring svg{transform:rotate(-90deg);}
+.ring-bg{fill:none;stroke:var(--gold-p);stroke-width:5;}
+.ring-fg{fill:none;stroke:var(--gold);stroke-width:5;stroke-linecap:round;transition:stroke-dashoffset .95s linear,stroke .3s;}
+.ring-fg.warn{stroke:#D4A017;}
+.ring-fg.danger{stroke:var(--red);animation:rpulse .5s infinite alternate;}
+@keyframes rpulse{to{opacity:.4;}}
+.timer-num{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:15px;font-weight:900;color:var(--ink);}
+.timer-num.warn{color:#8B6914;}
+.timer-num.danger{color:var(--red);}
+
+/* PROGRESS */
+.prog{background:var(--gold-pp);padding:7px 24px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);}
+.prog-track{flex:1;height:5px;background:var(--gold-p);border-radius:10px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--gold-d),var(--gold));border-radius:10px;transition:width .5s;}
+.prog-txt{color:var(--ink-soft);font-size:11px;font-weight:700;white-space:nowrap;}
+
+/* Q DOTS */
+.q-dots-wrap{display:flex;gap:4px;flex-wrap:wrap;padding:7px 24px;background:var(--white);border-bottom:1px solid var(--border);justify-content:center;}
+.q-dot{width:17px;height:17px;border-radius:50%;font-size:7px;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid var(--border);color:var(--ink-muted);background:var(--white);transition:all .15s;}
+.q-dot.ans{background:var(--gold-d);color:var(--white);border-color:var(--gold-d);}
+.q-dot.cur{border-color:var(--gold);color:var(--gold-d);}
+.q-dot.ans.cur{background:var(--gold);border-color:var(--gold);color:var(--white);}
+.q-dot.tout{background:#FEE2E2;border-color:var(--red);color:var(--red);}
+
+/* SCREENS */
+.screen{display:none;}.screen.active{display:block;}
+
+/* INTRO */
+.intro-wrap{min-height:calc(100vh - 70px);display:flex;align-items:center;justify-content:center;padding:24px 16px;}
+.intro-card{background:var(--white);border-radius:20px;padding:44px 36px;max-width:640px;width:100%;box-shadow:var(--shadow);border:1.5px solid var(--border);text-align:center;}
+.intro-logo-wrap{display:flex;justify-content:center;margin-bottom:20px;}
+.intro-logo{width:74px;height:74px;background:#000;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.intro-logo img{width:68px;height:68px;object-fit:contain;}
+.intro-title{font-size:30px;font-weight:900;color:var(--gold-d);letter-spacing:3px;margin-bottom:20px;}
+.intro-desc{background:var(--gold-pp);border:1.5px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:22px;text-align:right;}
+.intro-desc p{font-size:14px;color:var(--ink-soft);line-height:1.85;font-weight:500;}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.info-item{background:var(--cream);border:1.5px solid var(--border);border-radius:10px;padding:10px 13px;text-align:right;}
+.info-item .lbl{font-size:10px;color:var(--ink-muted);font-weight:700;margin-bottom:2px;}
+.info-item .val{font-size:14px;font-weight:800;color:var(--gold-d);}
+.rules-box{background:var(--gold-pp);border:1.5px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:20px;text-align:right;}
+.rules-box h4{font-size:12px;font-weight:800;color:var(--gold-d);margin-bottom:8px;}
+.rules-box li{font-size:12px;color:var(--ink-soft);padding:3px 14px;position:relative;line-height:1.65;list-style:none;}
+.rules-box li::before{content:"\25C6";color:var(--gold);position:absolute;right:0;font-size:7px;top:8px;}
+.field-wrap{margin-bottom:14px;text-align:right;}
+.field-wrap label{display:block;font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:5px;}
+.field-wrap input,.field-wrap select{width:100%;padding:11px 14px;border:2px solid var(--border);border-radius:9px;font-family:'Tajawal',sans-serif;font-size:14px;color:var(--ink);background:var(--cream);outline:none;transition:border-color .2s;margin-bottom:9px;}
+.field-wrap input:focus,.field-wrap select:focus{border-color:var(--gold);}
+.btn-start{background:linear-gradient(135deg,var(--gold-d),var(--gold));color:var(--white);border:none;padding:14px 44px;border-radius:11px;font-family:'Tajawal',sans-serif;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 4px 16px rgba(155,125,42,.28);transition:all .2s;letter-spacing:.5px;}
+.btn-start:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(155,125,42,.35);}
+
+/* QUIZ */
+.quiz-wrap{max-width:780px;margin:0 auto;padding:22px 14px 60px;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.q-card{background:var(--white);border-radius:14px;padding:24px 24px 20px;margin-bottom:16px;border:1.5px solid var(--border);box-shadow:var(--shadow);animation:fadeUp .3s ease;}
+.q-sec-bar{display:flex;align-items:center;gap:8px;margin-bottom:14px;padding:7px 13px;border-radius:8px;background:var(--gold-pp);border:1px solid var(--border);}
+.q-sec-bar span{font-size:11px;font-weight:700;color:var(--gold-d);}
+.q-sec-count{margin-right:auto;font-size:10px;color:var(--ink-muted);font-weight:600;}
+.q-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:var(--gold);color:var(--white);font-size:12px;font-weight:800;border-radius:7px;margin-bottom:11px;}
+.q-scenario{background:var(--cream);border-right:4px solid var(--gold);border-radius:8px;padding:12px 15px;font-size:13px;color:var(--ink-soft);line-height:1.8;margin-bottom:13px;font-style:italic;}
+.q-text{font-size:14px;font-weight:700;color:var(--ink);line-height:1.6;margin-bottom:13px;}
+.opts{display:flex;flex-direction:column;gap:8px;}
+.opt{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border:2px solid var(--border);border-radius:9px;cursor:pointer;transition:all .17s;background:var(--cream);font-size:13px;color:var(--ink-soft);line-height:1.6;}
+.opt:hover{border-color:var(--gold);background:var(--gold-pp);}
+.opt.sel{border-color:var(--gold-d);background:var(--gold-pp);color:var(--ink);}
+.opt.sel .om{background:var(--gold-d);color:var(--white);border-color:var(--gold-d);}
+.opt.locked{cursor:default;}
+.om{min-width:24px;height:24px;border:2px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--ink-muted);background:var(--white);flex-shrink:0;transition:all .17s;}
+.timeout-overlay{position:fixed;inset:0;background:rgba(192,57,43,.12);z-index:999;display:flex;align-items:center;justify-content:center;pointer-events:none;}
+.timeout-msg{background:var(--red);color:var(--white);padding:16px 36px;border-radius:13px;font-size:17px;font-weight:800;box-shadow:0 8px 32px rgba(0,0,0,.2);animation:fadeOut2 .5s 1.3s forwards;}
+@keyframes fadeOut2{to{opacity:0;}}
+.quiz-nav{display:flex;justify-content:space-between;align-items:center;margin-top:24px;padding-top:16px;border-top:1.5px solid var(--border);}
+.btn-nav{padding:10px 24px;border-radius:9px;font-family:'Tajawal',sans-serif;font-size:14px;font-weight:700;cursor:pointer;border:2px solid var(--border);transition:all .17s;background:var(--white);color:var(--ink-soft);}
+.btn-nav:hover:not(:disabled){border-color:var(--gold);color:var(--gold-d);}
+.btn-nav:disabled{opacity:.3;cursor:default;}
+.btn-next{background:var(--gold-d);color:var(--white);border-color:var(--gold-d);}
+.btn-next:hover{background:var(--gold);border-color:var(--gold);}
+.btn-submit{background:linear-gradient(135deg,var(--gold-d),var(--gold));color:var(--white);border-color:var(--gold);}
+.ans-ind{font-size:12px;color:var(--ink-muted);font-weight:600;}
+
+/* THANK YOU */
+.ty-wrap{min-height:calc(100vh - 70px);display:flex;align-items:center;justify-content:center;padding:22px 14px;}
+.ty-card{background:var(--white);border-radius:20px;padding:52px 38px;max-width:520px;width:100%;box-shadow:var(--shadow);border:1.5px solid var(--border);text-align:center;}
+.ty-icon{width:76px;height:76px;background:var(--gold-pp);border:2px solid var(--gold-p);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 22px;color:var(--green);}
+.ty-card h2{font-size:22px;font-weight:900;color:var(--gold-d);margin-bottom:8px;}
+.ty-name{color:var(--ink);font-weight:800;font-size:17px;display:block;margin-bottom:12px;}
+.ty-card p{font-size:13px;color:var(--ink-soft);line-height:1.75;margin-bottom:5px;}
+.ty-note{background:var(--gold-pp);border:1.5px solid var(--border);border-radius:9px;padding:13px 15px;margin-top:18px;font-size:12px;color:var(--ink-muted);line-height:1.65;}
+
+@media(max-width:640px){
+  .hdr{padding:9px 13px;}
+  .hdr-name{font-size:16px;}
+  .info-grid{grid-template-columns:1fr;}
+  .intro-card{padding:22px 14px;border-radius:14px;}
+  .intro-title{font-size:24px;}
+  .q-card{padding:14px 12px;border-radius:10px;}
+  .q-dots-wrap{padding:6px 8px;gap:2px;}
+  .q-dot{width:16px;height:16px;font-size:7px;}
+  .q-scenario{font-size:12px;padding:10px 12px;}
+  .q-text{font-size:13px;}
+  .opt{padding:9px 11px;font-size:12px;}
+  .quiz-nav{flex-wrap:wrap;gap:8px;}
+  .btn-nav{padding:9px 18px;font-size:13px;}
+  .ans-ind{order:-1;width:100%;text-align:center;}
+  .intro-logo{width:64px;height:64px;}
+  .intro-logo img{width:58px;height:58px;}
+  .timer-ring{width:46px;height:46px;}
+  .timer-ring svg{width:46px;height:46px;}
+  .timer-num{font-size:13px;}
+  .prog{padding:5px 13px;}
+  .quiz-wrap{padding:14px 10px 50px;}
+}
+@media(max-width:380px){
+  .q-dot{width:14px;height:14px;font-size:6px;}
+  .q-dots-wrap{gap:1px;padding:5px 6px;}
+  .intro-card{padding:18px 12px;}
+  .q-scenario{font-size:11px;}
+  .q-text{font-size:12px;}
+  .opt{font-size:11px;padding:8px 10px;}
+}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-brand">
+    <div class="hdr-logo"><img src="data:image/png;base64,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BWVsuPNLmiNmfHPH3KsqLVX2exIveW79TOWq3tbLZG3a/wBoWotZTkXCpMVIDllLEcMHp7ytRRFc1VQqjwwWyK+c5Te8nuwiIthiSDsS163RN+l8sD322rAbOGjJYRycArM2vXmj7lGH0moKF3DOHSgED0FUlRVGfo1OZPjbaf0J+NqFmOuFLdFkNtWirBq+U3ux3y2x3VrcSROnaGzgcu3g7xVd7hR1FBWSUlVH1c0Zw5ucroBI5LhTMTHlj1qty4kiNfarZcW2zCIilmk2jZ/rm96LuHX22Yup3kddTPPmSD8D4qxWkttejrzC1tfVG01OPOZUDDc+DhwVTUVdmaXj5b4prZ+KJePm20covl4F6KPUunqxgfTXmhlaRkbszeS89xqtJY6+vmtLgzjvSFhwqPjhyXJc48yT61VLs3GL3jY0TXq8n1gi2WpNsOh7BTFtBOy4TD6MVG0Y9Z5BQNtI2nX/AFm7yeZ4pLc05bTRHn4uPatFRWeJpOPiviS3l4sh351ty4XyXgiadle2t9itkVm1FTy1NNCN2GePi9re4g81tW0bazo2+aButtoayZ1VVU5ZGx0Lhx9KrYi8no+LK72yWz335eIjn3Kv2e/IIiK0IZuuybXlVoa9vqAx01DUANqIQeY7x4qxto2u6DuEAkN7ipXEcY6hpYR7eap6iqs3SMfMlxy5PxRMx862hcK5oz+0Wsp7hrm81tJKyaCare+N7OTgTzCwCIrKuChFRXcRZS4pN+IREWZifUUj4pWSxuLHscHNcOYI5FWX2ebcLBU2inpdSyPoa6NoY+TcJjkx+9kclWZFDzMCrMio2d3QkY+TOh7wJ46SWrtOai0za4LLdqatkjqy97I3ZLRuEZKgdEWWHiRxKlVF7oxyL5Xz45dQpp2L7YKbTlrZYNQxyuo4yeoqIxvFgP7pHd6FCyLLJxa8mHs7Fujym6dMuKHUsfts2haR1Bs6qqC1XaKpqZXsLIwCHcDnkQq4IiwwsOGHX7OD5b78zLIyJXy4pBERSzQEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAWR0/ZLrf7g2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" alt="logo"></div>
+    <span class="hdr-name">معيار</span>
+  </div>
+  <div class="timer-wrap" id="timerWrap" style="display:none">
+    <div class="timer-lbl">وقت السؤال</div>
+    <div class="timer-ring">
+      <svg width="52" height="52" viewBox="0 0 52 52">
+        <circle class="ring-bg" cx="26" cy="26" r="21"/>
+        <circle class="ring-fg" id="ringFg" cx="26" cy="26" r="21" stroke-dasharray="131.9" stroke-dashoffset="0"/>
+      </svg>
+      <div class="timer-num" id="timerNum">25</div>
+    </div>
+  </div>
+</div>
+
+<div class="prog" id="progBar" style="display:none">
+  <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+  <span class="prog-txt" id="progTxt">0 / 60</span>
+</div>
+<div class="q-dots-wrap" id="qDotsWrap" style="display:none"></div>
+
+<!-- INTRO -->
+<div class="screen active" id="sIntro">
+  <div class="intro-wrap">
+    <div class="intro-card">
+      <div class="intro-logo-wrap">
+        <div class="intro-logo"><img src="data:image/png;base64,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BWVsuPNLmiNmfHPH3KsqLVX2exIveW79TOWq3tbLZG3a/wBoWotZTkXCpMVIDllLEcMHp7ytRRFc1VQqjwwWyK+c5Te8nuwiIthiSDsS163RN+l8sD322rAbOGjJYRycArM2vXmj7lGH0moKF3DOHSgED0FUlRVGfo1OZPjbaf0J+NqFmOuFLdFkNtWirBq+U3ux3y2x3VrcSROnaGzgcu3g7xVd7hR1FBWSUlVH1c0Zw5ucroBI5LhTMTHlj1qty4kiNfarZcW2zCIilmk2jZ/rm96LuHX22Yup3kddTPPmSD8D4qxWkttejrzC1tfVG01OPOZUDDc+DhwVTUVdmaXj5b4prZ+KJePm20covl4F6KPUunqxgfTXmhlaRkbszeS89xqtJY6+vmtLgzjvSFhwqPjhyXJc48yT61VLs3GL3jY0TXq8n1gi2WpNsOh7BTFtBOy4TD6MVG0Y9Z5BQNtI2nX/AFm7yeZ4pLc05bTRHn4uPatFRWeJpOPiviS3l4sh351ty4XyXgiadle2t9itkVm1FTy1NNCN2GePi9re4g81tW0bazo2+aButtoayZ1VVU5ZGx0Lhx9KrYi8no+LK72yWz335eIjn3Kv2e/IIiK0IZuuybXlVoa9vqAx01DUANqIQeY7x4qxto2u6DuEAkN7ipXEcY6hpYR7eap6iqs3SMfMlxy5PxRMx862hcK5oz+0Wsp7hrm81tJKyaCare+N7OTgTzCwCIrKuChFRXcRZS4pN+IREWZifUUj4pWSxuLHscHNcOYI5FWX2ebcLBU2inpdSyPoa6NoY+TcJjkx+9kclWZFDzMCrMio2d3QkY+TOh7wJ46SWrtOai0za4LLdqatkjqy97I3ZLRuEZKgdEWWHiRxKlVF7oxyL5Xz45dQpp2L7YKbTlrZYNQxyuo4yeoqIxvFgP7pHd6FCyLLJxa8mHs7Fujym6dMuKHUsfts2haR1Bs6qqC1XaKpqZXsLIwCHcDnkQq4IiwwsOGHX7OD5b78zLIyJXy4pBERSzQEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAWR0/ZLrf7g2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" alt="logo"></div>
+      </div>
+      <div class="intro-title">معيار</div>
+      <div class="intro-desc">
+        <p>هذه الجلسة تساعدنا على فهم نقاط قوتك وتصميم برنامج تطوير يناسبك انت تحديدا. لا توجد اجابات صح او غلط بشكل مطلق - كل اجابة تعكس اسلوبك الحالي وهذا هو الهدف.</p>
+      </div>
+      <div class="info-grid">
+        <div class="info-item"><div class="lbl">عدد الاسئلة</div><div class="val">60 سؤالا</div></div>
+        <div class="info-item"><div class="lbl">وقت كل سؤال</div><div class="val">25 ثانية</div></div>
+        <div class="info-item"><div class="lbl">النوع</div><div class="val">سيناريوهات عملية</div></div>
+        <div class="info-item"><div class="lbl">النتيجة</div><div class="val">ترسل للادارة فقط</div></div>
+      </div>
+      <div class="rules-box">
+        <h4>قبل ان تبدا</h4>
+        <ul>
+          <li>لكل سؤال 25 ثانية فقط وبعدها ينتقل تلقائيا</li>
+          <li>عند 5 ثواني الاخيرة يظهر تنبيه باللون الاحمر</li>
+          <li>عند اختيار اجابة ينتقل تلقائيا للسؤال التالي</li>
+          <li>نتيجتك لن تظهر لك وترسل للادارة مباشرة</li>
+          <li>اجب بناء على ما تفعله فعليا لا على ما تعتقد انه الاصح</li>
+        </ul>
+      </div>
+      <div class="field-wrap">
+        <label>الاسم الكامل</label>
+        <input type="text" id="fName" placeholder="اكتب اسمك الكامل هنا">
+        <label>الفرع</label>
+        <select id="fBranch">
+          <option value="">اختر الفرع</option>
+          <option>المبرز</option>
+          <option>الهفوف</option>
+          <option>الازدهار</option>
+          <option>التخصصي</option>
+          <option>الحسن بن علي</option>
+          <option>الخرج</option>
+          <option>الربوة</option>
+          <option>الربيع</option>
+          <option>الريان</option>
+          <option>الشفا</option>
+          <option>العليا</option>
+          <option>انس بن مالك</option>
+          <option>بريدة</option>
+          <option>حائل</option>
+          <option>عنيزة</option>
+          <option>غرناطة</option>
+          <option>قرطبة</option>
+          <option>السويدي</option>
+          <option>الملقا</option>
+          <option>حطين</option>
+        </select>
+        <label>الرقم الوظيفي</label>
+        <input type="text" id="fEmpId" placeholder="ادخل الرقم الوظيفي">
+      </div>
+      <button class="btn-start" onclick="startExam()">ابدا الجلسة</button>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="screen" id="sQuiz">
+  <div class="quiz-wrap" id="quizWrap"></div>
+</div>
+
+<!-- THANK YOU -->
+<div class="screen" id="sThanks">
+  <div class="ty-wrap">
+    <div class="ty-card">
+      <div class="ty-icon">&#10003;</div>
+      <h2>شكرا لك</h2>
+      <span class="ty-name" id="tyName"></span>
+      <p>تم تسجيل اجاباتك وارسالها للادارة بنجاح.</p>
+      
+      <div class="ty-note">جلسة معيار جزء من مبادرة التطوير المهني لفريق بستاني.</div>
+    </div>
+  </div>
+</div>
+<script>
+const CIRC = 2*Math.PI*21;
+
+const QS = [
+  {s:"استقبال العميل وتكوين الانطباع الاول",sc:"دخل عميل الى الفرع وانت منشغل بترتيب منتج على الرف. لاحظت دخوله لكن استمررت في عملك لان المشرف طلب منك الانتهاء من الترتيب بسرعة.",q:"ما الاسلوب الاصح الذي كان يجب ان تتبعه؟",o:["تكمل الترتيب وتتجه له بعد ما تخلص","تنظر اليه وتبتسم وتقول اهلا تفضل وانا معاك خلال ثانية ثم توقف الترتيب وتذهب اليه","تنادي زميلك ليستقبله لانك مشغول","تنتظر حتى يتجه هو اليك"],c:1},
+  {s:"استقبال العميل وتكوين الانطباع الاول",sc:"عميلة دخلت وهي تبدو في عجلة وعيناها تتنقلان بسرعة بين المنتجات دون ان تتوقف عند اي منها.",q:"ما اول خطوة تقوم بها معها؟",o:["تتركها تتصفح وحدها وتنتظر حتى تسالك","تذهب اليها مباشرة وتسالها ايش تبحثين عنه","تستقبلها بحرارة وتقول: معظم عملاءنا اللي في عجلة نبدا معاهم هنا لان عندنا كل شيء جاهز بسرعة - ايش المناسبة","تعرض عليها اكثر منتج مباع مباشرة"],c:2},
+  {s:"استقبال العميل وتكوين الانطباع الاول",sc:"الفرع مزدحم وعميل واقف عند المدخل ينظر حوله ويبدو غير مرتاح. انت مشغول مع عميل اخر.",q:"ماذا تفعل في هذه اللحظة؟",o:["لا تتدخل لانك مشغول","تصيح من بعيد تفضل","تلتقي بعينيه وتبتسم وتشير باشارة يدك انتظر لحظة وانا معاك وتكمل مع عميلك الحالي","تطلب من زميلك يستقبله"],c:2},
+  {s:"استقبال العميل وتكوين الانطباع الاول",sc:"عميل دخل وهو يحمل كيسا من منافس مباشر لبستاني. بدا مترددا عند المدخل وكانه يقارن.",q:"ما الاسلوب الاذكى للتعامل مع هذا الموقف؟",o:["تستقبله عادي وكانك لم تر الكيس","تستقبله وتقول: يبدو انك تقارن بين الخيارات وهذا حقك. خليني اريك الفرق ولحظة وتبقى عارف ليه بستاني هي الخيار النهائي لاغلب عملاءنا","تتجاهل الكيس وتعرض عليه اشهر منتج","تسال زميلك يتعامل معه"],c:1},
+  {s:"استقبال العميل وتكوين الانطباع الاول",sc:"عميل دخل بشكل متكرر للمرة الثالثة هذا الشهر. تتذكر وجهه لكن لا تتذكر اسمه ولا ما اشترى.",q:"ما الاسلوب الاصح في استقباله؟",o:["تستقبله عاديا كعميل جديد","تقول له: يسعدنا تواجدك دايما عندنا - كانك تشوف اي اقتراح جديد يناسبك اليوم","تسال عميل اخر عن اسمه","تسال اسمه مباشرة وبشكل رسمي"],c:1},
+  {s:"استقبال العميل وتكوين الانطباع الاول",sc:"مجموعة من اربعة اشخاص دخلوا معا. يبدو ان كل واحد عنده راي مختلف. الكلام بينهم مرتفع.",q:"كيف تحدد من تتعامل معه وتبني العلاقة مع المجموعة؟",o:["تتكلم مع الجميع في نفس الوقت","تنتظر حتى يهدا الجو","تلاحظ لغة الجسد وتحدد صاحب القرار الذي يتكلم اكثر او يسال عن السعر ثم تبني اتصالك معه مع اشراك الباقين","تعرض اشهر منتج لتوقف النقاش"],c:2},
+  {s:"فهم احتياج العميل وتحليل المناسبة",sc:"عميل يقول ابي شيء حلو اقدمه. لم يذكر المناسبة ولا الميزانية ولا من هو المستلم.",q:"ما اكثر سؤال ذكي تبدا به؟",o:["بتريد كم تصرف","خذ هذا الكل يحبه","المناسبة ايش عشان اقدر اقترح اللي يناسبها بالضبط","عندنا اسعار تبدا من كذا"],c:2},
+  {s:"فهم احتياج العميل وتحليل المناسبة",sc:"عميل يريد هدية لمديره في العمل ميزانيته 200 ريال ويبدو ان المدير من كبار المسؤولين.",q:"ما الاقتراح الاكثر احترافية؟",o:["تعطيه ما يناسب ميزانيته مباشرة دون تعليق","تقول له ميزانيتك محدودة شوية لمدير كبير","تعرض عليه الخيار المناسب لـ200 ريال ثم تقول: عندي ايضا خيار بـ280 ريال بصندوق جلد فاخر يعطي انطباع اعلى وفي ناس كثير يفضلونه لهذا النوع من المناسبات","تقول له هدية المدير لازم تكون غالية"],c:2},
+  {s:"فهم احتياج العميل وتحليل المناسبة",sc:"عميلة تريد توزيعات لحفل زواج لـ200 شخص. قالت ميزانيتها محدودة.",q:"ما الاسلوب الاكثر احترافية لخدمة هذا الطلب؟",o:["تعطيها اقل الاسعار مباشرة","تقول لها المنتجات الرخيصة مش نفس الجودة","تسالها ما هو الانطباع الذي تريد ان تتركه عند ضيوفها ثم توجهها لافضل خيار يحقق الانطباع المناسب بالميزانية المتاحة مع عرض خيار مخصص بشعار المناسبة","تقترح تقليل عدد القطع للشخص الواحد"],c:2},
+  {s:"فهم احتياج العميل وتحليل المناسبة",sc:"عميل سال عن منتج معين وقال سمعت عنه من صديق. عند البحث لم تجده بالاسم الذي ذكره.",q:"كيف تتعامل مع الموقف؟",o:["تقول له مافينا هذا المنتج","تقول له انت غلطان هو","تسال ما الذي اعجبه في هذا المنتج وما الوصف الذي سمعه ثم تربطه باقرب منتج موجود بمزاياه","تتصل بالمستودع للتاكد"],c:2},
+  {s:"فهم احتياج العميل وتحليل المناسبة",sc:"عميل شركة تقدم لطلب 500 علبة هدايا للموظفين مع طباعة شعار الشركة. لم يتحدث عن الوقت المطلوب.",q:"ما اول شيء تحدده معه قبل اي اجراء اخر؟",o:["السعر الاجمالي","نوع الشوكولاتة","تاريخ التسليم المطلوب وكمية العينة للاعتماد ونوع التخصيص للتاكد من الجدوى الزمنية","هل عنده ميزانية محددة"],c:2},
+  {s:"فهم احتياج العميل وتحليل المناسبة",sc:"عميل يريد شوكولاتة لشخص مريض بالسكري. انت لست متاكدا من تفاصيل مكونات منتج بعينه.",q:"ما الاسلوب الاكثر اخلاقية ومهنية؟",o:["تقول له هذا المنتج مناسب","تقول له لا اعرف","تكون صريحا: اريد اتاكد من المكونات بالضبط قبل ما اقترح عليك لان هذا يخص صحة شخص. دقيقة وانا اتحقق","تعطيه اي منتج وتقول يمكن يكون مناسبا"],c:2},
+  {s:"رفع قيمة الفاتورة والبيع الاضافي",sc:"عميل اختار علبة شوكولاتة بـ120 ريالا وبدا راضيا ومتجها للكاشير.",q:"كيف ترفع قيمة الفاتورة في هذه اللحظة بشكل احترافي؟",o:["تتركه يذهب للكاشير","تعرض علبتين باسعار اقل","تقول له: بالمناسبة اغلب من يشتري هذه العلبة يضيف اليها علبة Rocher الصغيرة عشان يكون الطقم اكمل. تحب تشوفها","تقول له عندنا خصم على الثانية"],c:2},
+  {s:"رفع قيمة الفاتورة والبيع الاضافي",sc:"عميلة اشترت صندوق هدية بـ180 ريالا. سالتك هل يبدو كافيا كهدية لصديقتها في عيد ميلادها.",q:"كيف تستغل هذا السؤال بشكل احترافي؟",o:["تقول لها نعم كافي","تقول لها اضيفي شمعة او كارت هدية عشان يعطي انطباع ان الهدية مدروسة. عندنا شموع وكروت تناسب العلبة هذي بالضبط","تقول لها خذي علبة اكبر","تقول لها الهدية جميلة ما في داعي"],c:1},
+  {s:"رفع قيمة الفاتورة والبيع الاضافي",sc:"عميل يريد شراء علبة واحدة كهدية. عند النقاش معه اتضح ان عنده 3 اشخاص يريد اهداءهم في نفس الاسبوع.",q:"ما الاسلوب الاكثر فاعلية في خدمته ورفع قيمة الفاتورة؟",o:["تبيع له العلبة المطلوبة وحدها","تسال: الـ3 مناسبات مختلفة ولا ايش؟ لو تحب نجهز الكل مع بعض هنا توفر وقتك وتضمن ان كل شخص ياخذ اللي يليق به","تقول له اشتري 3 مرات","تقترح خصما على الكمية"],c:1},
+  {s:"رفع قيمة الفاتورة والبيع الاضافي",sc:"عميل يشتري صندوق هدية بـ95 ريالا. عندكم تشكيلة بـ150 ريالا تحتوي على نفس المنتجات في علبة جلد فاخرة.",q:"كيف تعرض الترقية بشكل لا يخلق احراجا للعميل؟",o:["تقول له هذي علبة ارخص","تقول له مباشرة الجلد احسن","تقول له: في ناس بتفضل اللي انت اخذته وفي ناس بتحب الرقي اللي يظهر ان الهدية مميزة. الخيار الثاني بفرق 55 ريال بس. انت تعرف اللي يناسبك","تقول له الرخيصة كويسة ايضا"],c:2},
+  {s:"رفع قيمة الفاتورة والبيع الاضافي",sc:"المشرف طلب منك رفع متوسط الفاتورة للفرع هذا الاسبوع. معظم المبيعات عناصر فردية بدون اضافات.",q:"ما الاستراتيجية العملية الصحيحة التي ستتبعها اليوم؟",o:["تضغط على كل عميل ياخذ اكثر","تعمل Bundle منطقي لكل صفقة: لكل عميل يشتري علبة تعرض اضافة المغلف الفاخر او الشمعة او الكارت المخصص وتبرر بالمناسبة لا بالسعر","تعرض خصمات لتشجيع الشراء","تنتظر المشرف يتدخل"],c:1},
+  {s:"رفع قيمة الفاتورة والبيع الاضافي",sc:"في نهاية الشهر لاحظت ان UPT الخاص بك 1.2 فقط بينما هدف الفرع 2.5. المشرف طلب تحسنا سريعا.",q:"ما الخطوة التشخيصية الاولى التي يجب ان تقوم بها؟",o:["تبدا تعرض منتجات اضافية عشوائيا على كل عميل","تراجع مبيعاتك وتحدد في اي مرحلة تتوقف عن اقتراح منتجات اضافية وتصحح نقطة الانقطاع","تطلب من المشرف تخفيض الهدف","تقول للعملاء خذوا اكثر"],c:1},
+  {s:"ادارة الاعتراضات والتفاوض",sc:"عميل يقول: السعر غالي. المنتج اللي انت عارضه عليه بـ220 ريالا.",q:"ما الرد الاحترافي الصحيح؟",o:["عندك حق خلينا نلاقيلك شيء ارخص","لا والله هو مناسب","بتقارن بينه وبين ايش بالضبط؟ عشان اقدر اشرح لك الفرق الحقيقي في القيمة مش في السعر","كل شيء عندنا غالي لان الجودة عالية"],c:2},
+  {s:"ادارة الاعتراضات والتفاوض",sc:"عميل يقول: كاشير فرع ثاني قال لي انكم بتعطوا خصم على الكميات وانا جبت 50 علبة.",q:"ما الاسلوب الصحيح للتعامل مع هذا الموقف؟",o:["تقول له غلط ما عندنا خصومات","تعطيه خصم فورا","تحترم كلامه وتقول: سامعك. دعني اتاكد من سياسة الكميات الحالية عند مشرفي وارجع لك بجواب دقيق خلال دقيقتين دون وعد مسبق","تتجاهل موضوع الخصم وتتكلم عن الجودة"],c:2},
+  {s:"ادارة الاعتراضات والتفاوض",sc:"عميلة قالت: شفت نفس العلبة في المطار باسعار اقل. هل تقدر تنزل السعر؟",q:"ما ردك المهني على هذا؟",o:["السعر ثابت ما نقدر نغير","نحن نختلف عن المطار في الجودة","طبيعي جدا ان اسعار المطار تختلف لان لديهم نموذج بيع مختلف. عندنا هنا خدمة مخصصة وتغليف وتخصيص والمنتج طازج. لو ابي اثبت لك الفرق دعيني اعطيك تذوقا الان","ما نعرف ايش يبيعون في المطار"],c:2},
+  {s:"ادارة الاعتراضات والتفاوض",sc:"عميل قديم يطلب خصما اضافيا بذريعة انه دائما يشتري من بستاني. اسلوبه ودود لكنه مصر.",q:"كيف تحافظ على العلاقة دون تقديم خصم خارج الصلاحية؟",o:["تعطيه خصم صغير دون علم المشرف","تقول له لا مش ممكن بشكل قاطع","تعترف بقيمته: شكرا انك دايما معنا هذا يعني كتير لنا. مش بيدي اعطيك خصم بدون مشرف لكن خليني اشوف ايه اللي اقدر اقدمه بشكل يليق بمكانتك مثلا اولوية التجهيز او هدية صغيرة مع طلبك","تقول له سياسة الشركة لا تسمح"],c:2},
+  {s:"ادارة الاعتراضات والتفاوض",sc:"عميل يقول: ما راح اشتري الا اذا حطيتلي خصم. وهو على وشك الخروج.",q:"ما الاسلوب الاصح للتعامل مع هذا الموقف المباشر؟",o:["تعطيه الخصم عشان لا يخرج","تتركه يخرج دون تدخل","تقول له بهدوء: افهم انك تريد قيمة اضافية. مش بيدي خصم لكن اقدر اضيف لك كارت هدية مجاني او تغليف مميز. هذا افضل ما اقدر اقدمه الان","تنادي المشرف فورا"],c:2},
+  {s:"ادارة الاعتراضات والتفاوض",sc:"عميل يطلب خصما كبيرا على طلب ضخم يقول انه لو ما حصل سيذهب لمنافس. اسلوبه ضاغط جدا.",q:"ما الموقف الاحترافي الصحيح؟",o:["تعطيه الخصم عشان تحافظ على الطلب","تتركه يذهب","تثبت على موقفك بهدوء: اقدر افهم انك تريد قيمة اضافية وهذا حقك. ما في بيدي خصم على هذا الحجم لكن اقدر اضيف قيمة بطريقة اخرى مثل التخصيص او التغليف المميز. لو قررت المنافس نتمنى تجربة ممتعة ونحن هنا لو رجعت","تتصل بالمشرف فورا دون محاولة"],c:2},
+  {s:"متابعة العميل وما بعد البيع",sc:"عميل اشترى طلبا مخصصا كبيرا لمناسبة زواج. بعد اسبوع رجع الفرع لغرض اخر.",q:"ما الاسلوب الاصح في استقباله هذه المرة؟",o:["تستقبله عاديا كعميل جديد","تقول له: اهلا بعودتك. كيف كانت المناسبة وهل الطلب كان على مستوى التوقعات","تتجنب الكلام عن الطلب السابق لانه انتهى","تسال عن الطلب فقط لو ذكره هو"],c:1},
+  {s:"متابعة العميل وما بعد البيع",sc:"عميل شركة سبق ان طلب توزيعات بكميات كبيرة في العيد الماضي. الان قرب العيد الجديد.",q:"ما المبادرة الاكثر احترافية من جهتك؟",o:["تنتظر يرجع بنفسه","تتواصل معه مسبقا وتقول: نزلنا تشكيلات العيد الجديدة وذكرت طلبك للعيد الماضي ووفرنا لك افضل الخيارات المناسبة. تحب نجهزها مسبقا","تبعت له كاتالوج بدون تواصل شخصي","تنتظر المشرف يوجهك"],c:1},
+  {s:"متابعة العميل وما بعد البيع",sc:"عميل رجع بعد يومين من شراء علبة هدية وقال ان المستلم لم يعجبه الطعم.",q:"كيف تتعامل مع هذا الموقف؟",o:["تقول له هذا طبيعي لا كل الناس تحب نفس الطعم","تعتذر مباشرة وتقدم بديلا مناسبا وتسال ما النكهات التي يفضلها المستلم لتساعده في اختيار افضل","تقول له لا نقدر نغير المنتج بعد الشراء","ترفضه مباشرة"],c:1},
+  {s:"متابعة العميل وما بعد البيع",sc:"عميل VIP اعتاد على الشراء شهريا من الفرع. لاحظت انه لم يزر الفرع منذ 6 اسابيع.",q:"ما الاجراء الاصح؟",o:["تنتظر يرجع بدون تدخل","تبلغ المشرف بذلك وتقترح التواصل معه لمعرفة السبب وتقديم اهتمام خاص","تفترض انه انتقل لمنافس وتتجاهل الامر","تسال عملاء اخرين عنه"],c:1},
+  {s:"ادارة الوقت والبيئة الداخلية للفرع",sc:"الفرع مزدحم وعندك عميلان ينتظران بينما تكمل مع عميل ثالث طلبا معقدا مخصصا يحتاج وقتا.",q:"ما الاسلوب الاصح لادارة الوقت؟",o:["تتجاهل المنتظرين وتكمل","تترك العميل الحالي وتذهب لاحدهم","تعتذر بلطف للعميل الحالي وتذهب للمنتظرين 30 ثانية لاحاطتهم بالوضع وتعطيهم كتالوج يتصفحانه وتعود للعميل الاول","تطلب منهم ينتظروا دون توضيح"],c:2},
+  {s:"ادارة الوقت والبيئة الداخلية للفرع",sc:"في نهاية الشيفت وقبل التسليم بـ10 دقائق دخل عميل يريد طلبا مخصصا كبيرا.",q:"ما الاسلوب المهني الصحيح؟",o:["تقول له انتهى الدوام تعال بكرا","تبدا معه وتتاخر ساعة دون اخبار احد","تستقبله بحرارة وتاخذ تفاصيل الطلب كاملة وتسلمه للزميل القادم مع تفاصيل دقيقة مكتوبة","تطلب منه ياتي بكرا دون شرح"],c:2},
+  {s:"ادارة الوقت والبيئة الداخلية للفرع",sc:"في وقت الذروة لاحظت ان مخزون منتج مطلوب جدا على وشك الانتهاء ولا احد نبه المشرف.",q:"ما الاجراء الصحيح؟",o:["تكمل شغلك وتنتظر المشرف يلاحظ","تبلغ المشرف فورا بشكل مباشر ومحدد: المنتج كذا على الرف تبقى قطعتين نحتاج تجديد سريع","تتكلم مع زملائك عن الموضوع","تخبر العملاء ان المنتج سينتهي"],c:1},
+  {s:"ادارة الوقت والبيئة الداخلية للفرع",sc:"عميل يريد الغاء طلب مخصص قدم عليه مسبقا وبدات الشركة في تجهيزه.",q:"كيف تتعامل مع هذا الطلب؟",o:["تقول له ما ينلغي وخلاص","توافق على الالغاء فورا","تشرح له بهدوء حالة الطلب وسياسة الالغاء وتعرض بديلا مثل تعديل الطلب بدل الغائه مع الرجوع للمشرف قبل اي قرار نهائي","تحوله مباشرة للمشرف دون اي توضيح"],c:2},
+  {s:"ادارة الوقت والبيئة الداخلية للفرع",sc:"احد زملائك يتاخر بشكل متكرر عن بدء الشيفت مما يؤثر على تغطية الفرع في ساعات الفتح.",q:"ما الاسلوب الصحيح؟",o:["تشتكي للمشرف مباشرة في كل مرة","تتكيف وتغطي غيابه دون ذكر الامر","تتكلم معه بشكل شخصي وبناء اولا: لاحظت انك بتتاخر وده بيضغط على الفريق. في شيء ممكن نساعدك فيه؟ لو الامر استمر راح اضطر ابلغ المشرف","تهاجمه امام الزملاء"],c:2},
+  {s:"معرفة المنتج والتخصيص وطلبات الشركات",sc:"عميل شركة يريد 300 علبة هدايا للموظفين بشعار الشركة وعنده 3 اسابيع للتسليم.",q:"ما الخطوات الصحيحة بالترتيب؟",o:["تاخذ المبلغ وتقول له سيكون جاهزا","تحدد اولا: النوع والحجم ونوع الطباعة وموعد التسليم المحدد ثم تتاكد من قدرة التنفيذ مع المشرف قبل اي تاكيد","تقول له تعال بعد اسبوع ونشوف","تقدر السعر اولا قبل اي تفاصيل"],c:1},
+  {s:"معرفة المنتج والتخصيص وطلبات الشركات",sc:"عميلة تريد توزيعات زواج من الصواني الجلدية الفاخرة. سالت عن الفرق بين الصواني المختلفة.",q:"ما المعلومات الجوهرية التي تشرحها لها؟",o:["تعطيها الكتالوج فقط","تشرح لها الفرق في السعر فقط","تشرح الفرق في المادة والحجم وعدد القطع وامكانية التخصيص بالاسم او الشعار ثم توجهها للخيار الذي يتناسب مع طبيعة الحضور ومستوى المناسبة","تقول لها كلها نفس الشيء تقريبا"],c:2},
+  {s:"معرفة المنتج والتخصيص وطلبات الشركات",sc:"عميل اختار علبة شفافة بسيطة كهدية لشريكه التجاري. عندكم نفس الحجم في صندوق خشبي منقوش بسعر اعلى.",q:"كيف تعرض الترقية بشكل يقنع دون ضغط؟",o:["تقول له الشفافة احسن","تقول له الخشبي اغلى بس احسن","تقول له: للشريك التجاري الانطباع مهم. الصندوق الخشبي المنقوش يعطي رسالة مختلفة: ان الهدية مفكر فيها لا مجرد شوكولاتة. كثير من عملاء الشركات يختارونه تحديدا لهذا السبب","تعرض عليه الاثنين ويختار"],c:2},
+  {s:"معرفة المنتج والتخصيص وطلبات الشركات",sc:"عميل يسال عن الفرق بين شوكولاتة الحليب والداكنة في بستاني. واضح انه لا يعرف المنتج جيدا.",q:"ما الاسلوب الاصح في الشرح؟",o:["تقول له الداكنة مرة والحليب حلوة","تاخذ وقتا طويلا في الشرح التقني","تعطيه وصفا حسيا مختصرا: شوكولاتة الحليب ناعمة وكريمية تناسب الجميع. الداكنة اعمق بطعم غني ومكثف يفضلها من يحب الطعم الاصيل. لو مش متاكد خذ تشكيلة تحتوي الاثنين","تقول له جرب وشوف"],c:2},
+  {s:"معرفة المنتج والتخصيص وطلبات الشركات",sc:"عميل يريد هدية لمسؤول كبير في شركة عالمية. سال ما الاقتراح الافضل الذي يعكس احترافية وقيمة.",q:"ما المقترح المناسب من منتجات بستاني؟",o:["اي علبة متوفرة","تعطيه اشهر منتج مبيعا","تقترح صندوق الجلد الفاخر او الخشبي المنقوش مع امكانية طباعة اسم الشركة او رسالة خاصة وتشرح ان هذا ما يختاره عملاء الشركات الكبيرة لانه يعطي انطباعا مدروسا","تسال عن الميزانية اولا دون اي اقتراح"],c:2},
+  {s:"معرفة المنتج والتخصيص وطلبات الشركات",sc:"عميل يسالك عن امكانية توصيل هدية محددة لعنوان بعيد خلال 24 ساعة.",q:"ما الاسلوب الصحيح في الرد؟",o:["نعم بالتاكيد","لا ما نقدر","تتحقق اولا من خيارات التوصيل المتاحة والوقت الفعلي قبل اي وعد ثم تخبره بالخيارات الفعلية بوضوح","تقول له اطلب اون لاين"],c:2},
+  {s:"مواقف الضغط والتحديات الصعبة",sc:"عميل غاضب يصرخ في الفرع بسبب خطا في طلب مخصص. باقي العملاء يشاهدون.",q:"ما الاسلوب الاكثر احترافية في هذه اللحظة؟",o:["تدافع عن الفرع وتقول له انه اخطا في الطلب","تعتذر بشكل مبالغ وتعطيه اي تعويض","تهدئه بهدوء تام وتاخذه لمكان جانبي بعيدا عن العملاء وتقول: اسمعني وعايز افهم كل شيء بالضبط حتى اقدر احل الموضوع لك بشكل صحيح ثم تستمع كاملا قبل اي رد","تحوله للمشرف فورا دون كلمة"],c:2},
+  {s:"مواقف الضغط والتحديات الصعبة",sc:"في يوم عيد وطني الفرع ممتلئ. عميل VIP اتصل مسبقا وطلب تجهيز طلبه قبل الزحمة لكن الطلب لم يكن جاهزا عند وصوله.",q:"كيف تتعامل مع هذا الموقف؟",o:["تقول له الفرع مزدحم وما قدرنا","تتجاهل الموضوع وتبدا من جديد","تعتذر مباشرة وبصدق: هذا لم يكن يجب ان يحدث وانا اعلم ذلك. سنجهز طلبك الان باولوية قصوى وسيكون خلال كذا دقيقة. ما الذي اقدر اقدمه لك في انتظارك","تحوله للمشرف وتختفي"],c:2},
+  {s:"مواقف الضغط والتحديات الصعبة",sc:"مشرفك طلب تقريرا عن ادائك البيعي الشهر الماضي. UPT كان 1.8 والهدف 2.5 وASP كان 145 ريالا والهدف 180 ريالا.",q:"ما الاسلوب الاحترافي الصحيح في الرد على المشرف؟",o:["تقول ما في عملاء كافيين","تتجنب الاجابة المحددة وتتكلم بشكل عام","تعترف بالفجوة وتحدد نقاط الضعف: لاحظت ان معظم عملياتي تنتهي بعنصر واحد وما اقترح اضافات في المرحلة الختامية. خطتي هي تطبيق Bundle منطقي عند كل عملية خلال الشهر القادم وقياس الاثر اسبوعيا","تلوم على ظروف الفرع والزحمة"],c:2},
+  {s:"مواقف الضغط والتحديات الصعبة",sc:"زميلك في الفرع يتعامل بشكل خاطئ مع عميل ولاحظت ان العميل بدا يظهر عليه الضيق وقد يخرج.",q:"ما دورك الصحيح في هذا الموقف؟",o:["لا تتدخل وهو شان زميلك","تصحح زميلك امام العميل مباشرة","تتدخل بلطف وتقول: اسمحوا لي وتستلم الموقف بشكل سلس وبعد انتهاء التعامل مع العميل تناقش زميلك على انفراد","تخبر المشرف فورا"],c:2},
+  {s:"التعاون داخل فريق الفرع",sc:"انت تخدم عميلا والفرع ممتلئ. لاحظت ان زميلك يعاني مع عميلين في نفس الوقت ويبدو متوترا.",q:"ما الاسلوب الاصح؟",o:["تكمل مع عميلك فقط","تترك عميلك وتساعد زميلك","تنهي خدمة عميلك بسرعة ثم تعرض المساعدة على زميلك او تنبه المشرف ان الفرع يحتاج تغطية اضافية","تتجاهل الموضوع كليا"],c:2},
+  {s:"التعاون داخل فريق الفرع",sc:"جاء طلب شركة كبير جدا ومعقد الى الفرع وانت الوحيد الذي خدم هذا العميل من قبل وعندك يوم اجازة غدا.",q:"ما الاسلوب الاصح قبل انتهاء شيفتك؟",o:["تقول للمشرف غدا اجازتي وهو يتصرف","تترك ملاحظة مكتوبة وتعطي المشرف وزميلك نبذة كاملة عن العميل وتفاصيل الطلب والتوقعات وتاكد ان الاستمرارية مضمونة","تتصل بالعميل وتقول له ارجع بعد غد","تتجاهل الموضوع لان مسؤوليتك انتهت بانتهاء شيفتك"],c:1},
+  {s:"التعاون داخل فريق الفرع",sc:"مشرفك طلب منك مساعدة زميل جديد اثناء ساعة ذروة وانت كذلك عندك عملاء.",q:"كيف توازن بين المهمتين؟",o:["ترفض لانك مشغول بعملاءك","تترك عملاءك وتركز على الزميل الجديد فقط","توجه الزميل الجديد سريعا في اساسيات الموقف الذي امامه وتعود لعملاءك ثم تكمل دعمه في الفترات الهادئة","تقول للمشرف هذا وقت غير مناسب"],c:2},
+  {s:"التعاون داخل فريق الفرع",sc:"الفرع يحقق ارقام مبيعات ضعيفة هذا الاسبوع. المشرف طلب اجتماعا لمناقشة الاسباب.",q:"ما الاسلوب الاكثر احترافية في الاجتماع؟",o:["تلوم العملاء على قلة الشراء","تلوم زملاءك على ضعف الاداء","تحلل ادائك انت اولا وتطرح نقاطا بناءة: ماذا يمكن تحسينه في اسلوب الاستقبال او طرق الاقتراح او ترتيب المنتجات وتقترح حلولا عملية","تتفق مع كل ما يقوله المشرف دون ان تضيف شيئا"],c:2},
+  {s:"سيناريوهات بيع متقدمة",sc:"عميل يجول في الفرع ببطء ويشاهد المنتجات والتوزيعات المعروضة. يمر بجانب كل المنتجات دون ان يتوقف عند اي منها.",q:"ما الاسلوب الاذكى في التعامل معه؟",o:["تتركه وحده لانه يتصفح فقط","تذهب اليه فورا وتعرض منتجا","تقترب منه بشكل طبيعي وتقول: لو تحب انا هنا اقدر اساعدك تلاقي اللي يناسبك بسرعة لان عندنا تشكيلات كثيرة","تنتظر يسالك"],c:2},
+  {s:"سيناريوهات بيع متقدمة",sc:"عميلة تريد هدية لشخص لا تعرف ذوقه جيدا وتخشى ان لا يعجبه المنتج.",q:"كيف تساعدها على اتخاذ القرار؟",o:["تقول لها اختاري اي شيء","تقول لها لو ما عجبه يرجع يبدل","تقول لها: لما ما نعرف الذوق التشكيلة المختلطة دائما خيار ذكي لانها تعطي المستلم خيارات متعددة. وخيارنا الاكثر طلبا لهذا الوضع هو تشكيلة Signature لانها تضم اشهر نكهاتنا","تعطيها اي منتج وتقول هذا الافضل"],c:2},
+  {s:"سيناريوهات بيع متقدمة",sc:"عميل يريد شراء شوكولاتة لتوزيعات في اجتماع شركات دولية وعنده ضيوف من خلفيات ثقافية مختلفة.",q:"ما الاقتراح الاذكى؟",o:["تعطيه اشهر منتج بدون تفكير","تقول له لا فرق اي شوكولاتة","تقترح التشكيلات المختلطة التي تشمل شوكولاتة حليب وداكنة ونكهات متعددة وتذكر انها تناسب الجميع وتشرح ان بعض المنتجات متوفرة بشكل خالي من المكسرات وهذا مهم في بيئات دولية","تقول له خذ من كل صنف"],c:2},
+  {s:"سيناريوهات بيع متقدمة",sc:"عميل سبق ان اشترى من الفرع قبل 3 اشهر وعاد اليوم. في السجل مشترياته كانت من تشكيلة الروشيه.",q:"كيف تستثمر هذه المعلومة في خدمته؟",o:["لا تذكر المشتريات السابقة ابدا","تقول له اشتريت روشيه قبل كذا هل تريد نفسه","تقول له باسلوب طبيعي: اهلا بعودتك. عندنا الان اضافة جديدة على تشكيلة الروشيه وتشكيلات جديدة تشبه نفس الذوق. تحب تشوف","تستقبله كعميل جديد"],c:2},
+  {s:"ادارة شكاوى العملاء والمواقف الحرجة",sc:"عميل قدم شكوى بان منتجا اشتراه من الفرع كانت مدة صلاحيته قريبة جدا واكتشف ذلك في المنزل.",q:"ما الاسلوب الاصح في التعامل مع هذه الشكوى؟",o:["تقول له انه كان يجب يتحقق عند الشراء","تعتذر وتشرح له ان هذا خطا غير مقبول وتقترح الحل الفوري: استبدال المنتج او استرداد قيمته وتبلغ المشرف فورا لمراجعة المخزون","تقول له هذا موضوع المستودع مش موضوعي","ترفض الشكوى لانه اشترى المنتج بنفسه"],c:1},
+  {s:"ادارة شكاوى العملاء والمواقف الحرجة",sc:"عميل اتصل بالفرع وهو غاضب جدا لان طلبه المخصص سلم للعنوان الخطا.",q:"كيف تتعامل مع المكالمة؟",o:["تقول له ان المشكلة في التوصيل مش في الفرع","تعتذر فورا وبصدق وتاخذ تفاصيل الطلب والعنوان الصحيح وتتعهد بحل فوري وتعطيه موعدا محددا للحل ثم تبلغ المشرف","تعلق المكالمة وتتصل به لاحقا","تقول له انتظر سنراجع ولا تعطيه موعدا"],c:1},
+  {s:"ادارة شكاوى العملاء والمواقف الحرجة",sc:"عميل يريد استبدال منتج اشتراه قبل 10 ايام وهو خارج مدة الاستبدال المتاحة.",q:"كيف تتعامل مع الطلب؟",o:["ترفضه قاطعا لان المدة انتهت","توافق على الاستبدال دون علم المشرف","تشرح له بلطف السياسة وسبب وجودها وتعرض عليه اي خيار متاح ضمن الصلاحيات وتحيله للمشرف لاي استثناء ممكن","تقول له لو قلت للمشرف انك دفعت اكثر ممكن يوافق"],c:2},
+  {s:"المؤشرات البيعية والاهداف",sc:"المشرف اخبرك ان ASP متوسط فاتورتك هذا الشهر 95 ريالا والهدف 150 ريالا. الفرق كبير جدا.",q:"ما الخطوة الاولى لتحليل المشكلة؟",o:["تقول ان العملاء لا يريدون الصرف","تراجع نوعية المنتجات التي تبيعها وتحدد هل تبيع دائما الفئات الارخص وتتجنب عرض الخيارات الاعلى قيمة","تطلب من المشرف تخفيض الهدف","تلوم المنتجات الغالية على ضعف المبيعات"],c:1},
+  {s:"المؤشرات البيعية والاهداف",sc:"في نهاية اليوم لاحظت ان هدف الفرع لم يتحقق وباقي ساعة واحدة قبل الاغلاق. هناك عميلان في الفرع.",q:"ما الاسلوب الاصح للتعامل مع الساعة الاخيرة؟",o:["تستسلم ان الهدف لن يتحقق","تضغط على العملاء بشكل غير مريح","تستثمر الوقت المتبقي بالتركيز على كل عميل موجود وتقدم افضل تجربة ممكنة وتقترح اضافات مناسبة بهدوء. حتى فاتورة واحدة قوية تفرق","تنتظر عملاء جدد يدخلون"],c:2},
+  {s:"قراءة لغة الجسد وادارة التواصل",sc:"عميل يستمع لعرضك لكن عيناه تتجولان وجسمه ميل بعيدا. لم يقاطعك لكن لا يبدو متفاعلا.",q:"ماذا تفعل؟",o:["تكمل عرضك كما هو حتى النهاية","تصمت فورا وتنتظره يتكلم","تتوقف وتقول: اشعر انك لديك سؤال او توجه مختلف. ايش اللي يخطر على بالك","تعيد نفس المعلومات بصوت اعلى"],c:2},
+  {s:"قراءة لغة الجسد وادارة التواصل",sc:"عميلة تسال اسئلة كثيرة وتفاصيل دقيقة عن منتج بعينه. واضح انها مهتمة جدا.",q:"ما الاسلوب الاكثر ذكاء في الرد؟",o:["تجيب على كل سؤال بشكل منفصل فقط","تقول لها: كل هذا الاهتمام يقول لي انك وجدت ما تبحثين عنه. خلينا نكمل الطلب ونضمن انك تاخذينه بالشكل اللي يناسبك تماما","تقول لها هذا المنتج ممتاز فقط","تعرض عليها منتجا اخر للمقارنة"],c:1},
+  {s:"التفاوض المتقدم وبناء قيمة البيع",sc:"عميل شركة يقارن سعر بستاني بمورد اخر اقل سعرا وقال الفرق كبير والشركة تفضل الارخص.",q:"كيف تبني قيمة بستاني في هذه المحادثة؟",o:["تقول له المورد الاخر جودته اقل","تقول له بستاني اغلى لان جودتها اعلى فقط","تسال: ما الانطباع الذي تريد ان تتركه عند العملاء عند تلقيهم الهدية؟ ثم تربط الجودة والتقديم والتخصيص بالقيمة الفعلية التي ستضيفها لعلاقة الشركة بعملاءها","تنزل في السعر لاقناعه"],c:2},
+  {s:"التفاوض المتقدم وبناء قيمة البيع",sc:"عميل جاهز للشراء لكن يريد ضمانا ان المنتج سيكون جاهزا في موعد محدد جدا وانت لست متاكدا 100 بالمئة.",q:"ما الاسلوب الاكثر احترافية؟",o:["تقول له نعم بالتاكيد لاغلاق الصفقة","تقول له لا نضمن شيئا","تقول له: الموعد الذي ذكرته ممكن في الغالب لكن اريد اتاكد من الانتاج قبل ان اعطيك وعدا قاطعا. دقيقتين وانا اتحقق وارجع لك بجواب واضح","تعطيه موعدا اقرب من الحقيقي لاقناعه"],c:2},
+  {s:"العمليات اليومية والمهنية في الفرع",sc:"في نهاية الشيفت عندك تقرير مبيعات يجب تقديمه للمشرف. لاحظت ان هناك فرقا بين رقم الكاشير ورقم المبيعات المسجلة.",q:"ما الاسلوب الاصح؟",o:["تتجاهل الفرق وتقدم التقرير كما هو","تعدل الارقام لتتطابق دون مراجعة","تبلغ المشرف فورا بالفرق وتطلب مراجعة المعاملات قبل تقديم التقرير النهائي","تقدم التقرير وتترك الملاحظة ليوم اخر"],c:2},
+  {s:"العمليات اليومية والمهنية في الفرع",sc:"عميل يسالك عن فاتورة رسمية باسم شركته لطلب اشتراه بالكاش.",q:"ما الاجراء الصحيح؟",o:["تقول له الفاتورة الرسمية بتطلع فقط للبطاقة","تطبع له اي فاتورة دون التاكد","ترجع للمشرف للتاكد من الاجراء الصحيح لاصدار الفاتورة الرسمية باسم الشركة قبل تسجيل اي عملية","تقول له مسوي فاتورة يدوية"],c:2},
+  {s:"العمليات اليومية والمهنية في الفرع",sc:"خلال ترتيب الرف لاحظت ان احد المنتجات قريب الانتهاء من صلاحيته ولا يزال معروضا امام العملاء.",q:"ما الاجراء الصحيح؟",o:["تتركه معروضا لانه لم ينته بعد","تبيعه للعميل الاول الذي يمر دون اخبار المشرف","تسحبه فورا من العرض وتبلغ المشرف وتتحقق من باقي المنتجات على الرف نفسه","تنتظر المشرف يلاحظ بنفسه"],c:2}
+];
+
+let cur=0,ans=new Array(60).fill(null),qTimer=null,timeLeft=15,inExtra=false,startTs=null;
+let cName="",cBranch="",cEmpId="";
+
+function beep(f,d){try{const c=new(window.AudioContext||window.webkitAudioContext)();const o=c.createOscillator();const g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;g.gain.setValueAtTime(.25,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.start(c.currentTime);o.stop(c.currentTime+d);}catch(e){}}
+
+function startExam(){
+  cName=document.getElementById("fName").value.trim();
+  cBranch=document.getElementById("fBranch").value;
+  cEmpId=document.getElementById("fEmpId").value.trim();
+  if(!cName){alert("من فضلك ادخل اسمك الكامل");return;}
+  if(!cBranch){alert("من فضلك اختر الفرع");return;}
+  if(!cEmpId){alert("من فضلك ادخل الرقم الوظيفي");return;}
+  document.getElementById("sIntro").classList.remove("active");
+  document.getElementById("sQuiz").classList.add("active");
+  ["progBar","qDotsWrap","timerWrap"].forEach(id=>document.getElementById(id).style.display="flex");
+  startTs=Date.now();buildDots();gotoQ(0);
+}
+function buildDots(){
+  const w=document.getElementById("qDotsWrap");w.innerHTML="";
+  for(let i=0;i<60;i++){const d=document.createElement("div");d.className="q-dot"+(i===0?" cur":"");d.textContent=i+1;d.id="dot"+i;w.appendChild(d);}
+}
+function refreshDots(){
+  for(let i=0;i<60;i++){
+    const d=document.getElementById("dot"+i);if(!d)return;
+    d.className="q-dot";
+    if(ans[i]==="T")d.classList.add("tout");
+    else if(ans[i]!==null)d.classList.add("ans");
+    if(i===cur)d.classList.add("cur");
+  }
+}
+function updProg(){
+  const done=ans.filter(a=>a!==null).length;
+  document.getElementById("progFill").style.width=Math.round((done/60)*100)+"%";
+  document.getElementById("progTxt").textContent=done+" / 60";
+}
+function startQTimer(){
+  clearInterval(qTimer);timeLeft=25;inExtra=false;renderRing(25,25);setRingStyle("n");
+  qTimer=setInterval(()=>{
+    timeLeft--;
+    if(timeLeft===5&&!inExtra){beep(880,.08);setRingStyle("w");}
+    if(timeLeft<=2&&!inExtra){beep(1200,.06);setRingStyle("d");}
+    if(timeLeft<=0&&!inExtra){inExtra=true;timeLeft=5;beep(440,.3);setRingStyle("d");showTOFlash();}
+    else if(timeLeft<=0&&inExtra){clearInterval(qTimer);if(ans[cur]===null)ans[cur]="T";refreshDots();updProg();cur<59?gotoQ(cur+1):submitExam();return;}
+    renderRing(timeLeft,inExtra?5:25);
+  },1000);
+}
+function renderRing(l,t){
+  document.getElementById("ringFg").style.strokeDashoffset=CIRC*(1-l/t);
+  document.getElementById("timerNum").textContent=l;
+}
+function setRingStyle(s){
+  document.getElementById("ringFg").className="ring-fg"+(s==="w"?" warn":s==="d"?" danger":"");
+  document.getElementById("timerNum").className="timer-num"+(s==="w"?" warn":s==="d"?" danger":"");
+}
+function showTOFlash(){
+  const el=document.createElement("div");el.className="timeout-overlay";
+  el.innerHTML='<div class="timeout-msg">انتهى وقت السؤال - 5 ثواني اضافية</div>';
+  document.body.appendChild(el);setTimeout(()=>el.remove(),1900);
+}
+function gotoQ(idx){cur=idx;clearInterval(qTimer);renderQ(idx);refreshDots();updProg();startQTimer();window.scrollTo(0,0);}
+function renderQ(idx){
+  const q=QS[idx];const L=["أ","ب","ج","د"];
+  const locked=ans[idx]!==null&&ans[idx]!=="T";
+  document.getElementById("quizWrap").innerHTML=`<div class="q-card"><div class="q-sec-bar"><span>${q.s}</span><span class="q-sec-count">سؤال ${idx+1} من 60</span></div><div class="q-num">${idx+1}</div><div class="q-scenario">${q.sc}</div><div class="q-text">${q.q}</div><div class="opts" id="optsW">${q.o.map((opt,oi)=>`<div class="opt${ans[idx]===oi?" sel":""}${locked?" locked":""}" onclick="${locked?"":"pickOpt("+idx+","+oi+")"}"><div class="om">${L[oi]}</div><span>${opt}</span></div>`).join("")}</div></div><div class="quiz-nav"><button class="btn-nav" onclick="prevQ()" ${idx===0?"disabled":""}>السابق</button><span class="ans-ind">${ans.filter(a=>a!==null).length} / 60</span>${idx<59?'<button class="btn-nav btn-next" onclick="nextQ()">التالي</button>':'<button class="btn-nav btn-submit" onclick="submitExam()">ارسال الاجابات</button>'}</div>`;
+}
+function pickOpt(qi,oi){
+  if(ans[qi]!==null&&ans[qi]!=="T")return;
+  ans[qi]=oi;refreshDots();updProg();
+  document.querySelectorAll(".opt").forEach((el,i)=>{el.className="opt locked"+(i===oi?" sel":"");el.onclick=null;});
+  setTimeout(()=>{cur<59?gotoQ(cur+1):submitExam();},420);
+}
+function nextQ(){if(cur<59)gotoQ(cur+1);}
+function prevQ(){if(cur>0)gotoQ(cur-1);}
+function submitExam(){
+  clearInterval(qTimer);
+  ["progBar","qDotsWrap","timerWrap"].forEach(id=>document.getElementById(id).style.display="none");
+  let total=0;const sm={};
+  QS.forEach((q,i)=>{
+    if(!sm[q.s])sm[q.s]={score:0,total:0};
+    sm[q.s].total++;
+    if(ans[i]===q.c){total++;sm[q.s].score++;}
+  });
+  const sec=Math.round((Date.now()-startTs)/1000);
+  const payload={name:cName,branch:cBranch,empId:cEmpId,totalScore:total,totalQuestions:60,timeTaken:`${Math.floor(sec/60)}د ${sec%60}ث`,sections:sm,answers:ans};
+  sendData(payload);
+  document.getElementById("sQuiz").classList.remove("active");
+  document.getElementById("sThanks").classList.add("active");
+  document.getElementById("tyName").textContent=cName;
+}
+async function sendData(data){
+  const url=document.getElementById("appsUrl").value;
+  const encoded=btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+  const waNum=document.getElementById("waNum").value;
+  // Try Google Sheets first
+  if(url&&url!=="YOUR_GOOGLE_APPS_SCRIPT_URL_HERE"){
+    try{
+      await fetch(url,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
+    }catch(e){console.error(e);}
+  }
+  // Always show WhatsApp backup button
+  const ty=document.getElementById("sThanks");
+  const waDiv=document.createElement("div");
+  waDiv.style.cssText="margin-top:16px;";
+  const secPct=Math.round((data.totalScore/data.totalQuestions)*100);
+  const sLines=Object.entries(data.sections).map(([k,v])=>"  "+k+": "+v.score+"/"+v.total).join("\n");
+  const waMsg=encodeURIComponent(
+    "جلسة معيار - نتيجة موظف\n"+
+    "الاسم: "+data.name+"\n"+
+    "الفرع: "+data.branch+"\n"+
+    "الرقم الوظيفي: "+data.empId+"\n"+
+    "المجموع: "+data.totalScore+" من "+data.totalQuestions+" ("+secPct+"%)\n"+
+    "الوقت: "+data.timeTaken+"\n"+
+    "تفصيل المحاور:\n"+sLines
+  );
+  const waLink="https://wa.me/"+waNum.replace(/[^0-9]/g,"")+"?text="+waMsg;
+  waDiv.innerHTML='<a href="'+waLink+'" target="_blank" style="display:inline-block;background:#25D366;color:#fff;padding:12px 28px;border-radius:10px;font-family:Tajawal,sans-serif;font-size:14px;font-weight:800;text-decoration:none;">ارسال النتيجة على واتساب</a>';
+  document.querySelector(".ty-card").appendChild(waDiv);
+}
+</script>
+<!-- اختياري: لو عندك رابط Google Apps Script حطه هنا -->
+<input type="hidden" id="appsUrl" value="https://script.google.com/macros/s/AKfycbxOThzsOQdaoAscNJnZ9nPPU3hW2DfqVS0GkUBYSn_Z0405pWIpZ6UZ-dP69DXN08z0/exec">
+<!-- غير الرقم ادناه برقم الواتساب مع كود الدولة بدون + مثال: 966501234567 -->
+<input type="hidden" id="waNum" value="201220088154">
+</body>
+</html>
